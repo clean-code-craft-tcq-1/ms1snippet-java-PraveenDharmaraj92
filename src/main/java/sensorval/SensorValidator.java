@@ -2,30 +2,40 @@ package sensorval;
 
 import java.util.List;
 
-public class SensorValidator 
-{
-    public static boolean _give_me_a_good_name(double value, double nextValue, double maxDelta) {
-        if(nextValue - value > maxDelta) {
-            return false;
-        }
-        return true;
-    }
-    public static boolean validateSOCreadings(List<Double> values) {
-        int lastButOneIndex = values.size() - 1;
-        for(int i = 0; i < lastButOneIndex; i++) {
-            if(!_give_me_a_good_name(values.get(i), values.get(i + 1), 0.05)) {
-            return false;
-            }
-        }
-        return true;
-    }
-    public static boolean validateCurrentreadings(List<Double> values) {
-        int lastButOneIndex = values.size() - 1;
-        for(int i = 0; i < lastButOneIndex; i++) {
-            if(!_give_me_a_good_name(values.get(i), values.get(i + 1), 0.1)) {
-            return false;
-            }
-        }
-        return true;
-    }
+/**
+ * Class for sensor parameter validation
+ *
+ */
+public class SensorValidator {
+	
+	/**
+	 * @param value - value 1
+	 * @param nextValue - value 2, sequential to value 1
+	 * @param maxDelta - maximum deviation allowed
+	 * @return - true if difference between 2 values is not more than delta value 
+	 */
+	public static boolean isReadingNormal(double value, double nextValue, double maxDelta) {
+		return (nextValue - value) < maxDelta;
+	}
+
+	/**
+	 * @param values - list of values
+	 * @param maxDelta - maximum deviation allowed 
+	 * @return  true if no deviations in readings
+	 */
+	public static boolean validateReadings(List<Double> values, Double maxDelta) {
+
+		if (values == null||values.isEmpty()) {
+			return false;
+		}
+
+		int lastButOneIndex = values.size() - 1;
+		for (int i = 0; i < lastButOneIndex; i++) {
+			if (!isReadingNormal(values.get(i), values.get(i + 1), maxDelta)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
