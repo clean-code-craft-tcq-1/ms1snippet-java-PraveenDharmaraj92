@@ -30,7 +30,14 @@ public class SensorValidatorTest {
 
 	@Test
 	public void testReadingsValidationWithEmptyInput() {
-		assertFalse(SensorValidator.validateReadings(new ArrayList<>(), 0.1));
+		assertFalse(SensorValidator.validateReadings(new ArrayList<Double>(), 0.1));
+	}
+	
+	@Test
+	public void testValueBreach(){
+		Double[] readings = { 0.0, 0.01, 0.5, 0.51 };
+		List<Double> valueList = Arrays.asList(readings);
+		assertTrue(SensorValidator.isDeltaValueBreached(valueList, 0.1));
 	}
 
 }
